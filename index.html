@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8" />
+        <title>ECharts</title>
+        <!-- 引入刚刚下载的 ECharts 文件 -->
+        <script src="js/echarts.js"></script>
+        <script src="js/jquery-3.6.0.js"></script>
+    </head>
+    <body>
+    <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
+    <div id="llvm" style="width: 100%;height:800px;"></div>
+    <div id="gcc" style="width: 100%;height:800px;"></div>
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+            $.getJSON('tsvc-llvm.json', function(json_data){
+                // console.log(data)
+                // 获取日期、kernel名列表
+                var category = json_data["info"]["dates"];
+                var kernel_names = json_data["info"]["kernel_names"];
+
+                var data = json_data["data"];
+
+                // 格式化数据
+                var kernels = [];
+
+                var kernel_selected = {};
+                for (var key in data){
+                    // console.log(key);
+                    var dict = {};
+                    dict["type"] = 'line';
+                    dict["name"] = key;
+                    dict["data"] = [];
+                    for (var sub_key in data[key]){
+                        dict["data"].push(data[key][sub_key]);
+                    }
+                    kernels.push(dict);
+                    kernel_selected[key] = false;
+                }
+                // console.log(kernels);
+
+                // 绘制条状图
+                var myChart = echarts.init(document.getElementById('llvm'));
+                window.addEventListener('resize', function() {
+                    myChart.resize();
+                });
+                var option = {
+                    title: {
+                        text: 'LLVM-TSVC_2 性能变化'
+                    },
+                    legend: {
+                        data: kernel_names,
+                        selected: kernel_selected
+                    },
+                    xAxis:  {
+                        type: 'category',
+                        data: category
+                    },
+                    yAxis: {
+                        // type: 'value'
+                    },
+                    series: kernels
+                };
+                myChart.setOption(option);
+            })
+
+            $.getJSON('tsvc-gcc.json', function(json_data){
+                // console.log(data)
+                // 获取日期、kernel名列表
+                var category = json_data["info"]["dates"];
+                var kernel_names = json_data["info"]["kernel_names"];
+
+                var data = json_data["data"];
+
+                // 格式化数据
+                var kernels = [];
+
+                var kernel_selected = {};
+                for (var key in data){
+                    // console.log(key);
+                    var dict = {};
+                    dict["type"] = 'line';
+                    dict["name"] = key;
+                    dict["data"] = [];
+                    for (var sub_key in data[key]){
+                        dict["data"].push(data[key][sub_key]);
+                    }
+                    kernels.push(dict);
+                    kernel_selected[key] = false;
+                }
+                // console.log(kernels);
+
+                // 绘制条状图
+                var myChart = echarts.init(document.getElementById('gcc'));
+                window.addEventListener('resize', function() {
+                    myChart.resize();
+                });
+                var option = {
+                    title: {
+                        text: 'GCC-TSVC_2 性能变化'
+                    },
+                    legend: {
+                        data: kernel_names,
+                        selected: kernel_selected
+                    },
+                    xAxis:  {
+                        type: 'category',
+                        data: category
+                    },
+                    yAxis: {
+                        // type: 'value'
+                    },
+                    series: kernels
+                };
+                myChart.setOption(option);
+            })
+        });
+
+
+
+
+
+    </script>
+    </body>
+</html>
