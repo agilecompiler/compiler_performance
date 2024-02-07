@@ -6,13 +6,15 @@
         <!-- 引入刚刚下载的 ECharts 文件 -->
         <script src="js/echarts.js"></script>
         <script src="js/jquery-3.6.0.js"></script>
+        <meta http-equiv="pragma" content="no-cache" />
+        <meta http-equiv="content-type" content="no-cache, must-revalidate" />
+        <meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT"/>
     </head>
-    <body>
+    <body onLoad="javascript:document.yourFormName.reset()">
     <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
     <div id="llvm" style="width: 100%;height:800px;"></div>
     <div id="gcc" style="width: 100%;height:800px;"></div>
     <script type="text/javascript">
-
         $(document).ready(function() {
             $.getJSON('tsvc-llvm.json', function(json_data){
                 // console.log(data)
