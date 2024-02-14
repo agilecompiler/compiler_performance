@@ -9,7 +9,7 @@
         <meta http-equiv="content-type" content="no-cache, must-revalidate" />
         <meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT"/>
     </head>
-    <body onLoad="javascript:document.yourFormName.reset()">
+    <body>
     <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
     <div id="llvm" style="width: 100%;height:600px;"></div>
     <div id="gcc" style="width: 100%;height:600px;"></div>
@@ -18,20 +18,19 @@
             $.getJSON('tsvc-llvm.json', function(json_data){
                 // console.log(data)
                 // 获取日期、kernel名列表
-                var category = json_data["info"]["dates"];
-                var start_value = category[category.length - 10];
-                console.log(start_value);
-                var kernel_names = json_data["info"]["kernel_names"];
+                const category = json_data["info"]["dates"];
+                const start_value = category[category.length - 10];
+                const kernel_names = json_data["info"]["kernel_names"];
 
-                var data = json_data["data"];
+                const data = json_data["data"];
 
                 // 格式化数据
-                var kernels = [];
+                const kernels = [];
 
-                var kernel_selected = {};
-                for (var key in data){
+                const kernel_selected = {};
+                for (const key in data){
                     // console.log(key);
-                    var dict = {};
+                    const dict = {};
                     dict["type"] = 'line';
                     dict["name"] = key;
                     dict["data"] = [];
@@ -48,7 +47,7 @@
                         ]
                     }
 
-                    for (var sub_key in data[key]){
+                    for (const sub_key in data[key]){
                         dict["data"].push(data[key][sub_key]);
                     }
                     kernels.push(dict);
@@ -57,11 +56,11 @@
                 // console.log(kernels);
 
                 // 绘制条状图
-                var myChart = echarts.init(document.getElementById('llvm'));
+                const myChart = echarts.init(document.getElementById('llvm'));
                 window.addEventListener('resize', function() {
                     myChart.resize();
                 });
-                var option = {
+                const option = {
                     title: {
                         text: 'LLVM-TSVC_2 性能变化 (Runtime)'
                     },
@@ -80,7 +79,7 @@
                         data: kernel_names,
                         selected: kernel_selected
                     },
-                    xAxis:  {
+                    xAxis: {
                         type: 'category',
                         data: category
                     },
@@ -94,8 +93,8 @@
                             dataZoom: {
                                 yAxisIndex: 'none'
                             },
-                            dataView: { readOnly: false },
-                            magicType: { type: ['line', 'bar'] },
+                            dataView: {readOnly: false},
+                            magicType: {type: ['line', 'bar']},
                             restore: {},
                             saveAsImage: {}
                         }
@@ -111,18 +110,18 @@
             $.getJSON('tsvc-gcc.json', function(json_data){
                 // console.log(data)
                 // 获取日期、kernel名列表
-                var category = json_data["info"]["dates"];
-                var kernel_names = json_data["info"]["kernel_names"];
-                var start_value = category[category.length - 10];
-                var data = json_data["data"];
+                const category = json_data["info"]["dates"];
+                const kernel_names = json_data["info"]["kernel_names"];
+                const start_value = category[category.length - 10];
+                const data = json_data["data"];
 
                 // 格式化数据
-                var kernels = [];
+                const kernels = [];
 
-                var kernel_selected = {};
-                for (var key in data){
+                const kernel_selected = {};
+                for (const key in data){
                     // console.log(key);
-                    var dict = {};
+                    const dict = {};
                     dict["type"] = 'line';
                     dict["name"] = key;
                     dict["data"] = [];
@@ -138,7 +137,7 @@
                             {type: 'average', name: 'Average'}
                         ]
                     }
-                    for (var sub_key in data[key]){
+                    for (const sub_key in data[key]){
                         dict["data"].push(data[key][sub_key]);
                     }
                     kernels.push(dict);
@@ -147,11 +146,11 @@
                 // console.log(kernels);
 
                 // 绘制条状图
-                var myChart = echarts.init(document.getElementById('gcc'));
+                const myChart = echarts.init(document.getElementById('gcc'));
                 window.addEventListener('resize', function() {
                     myChart.resize();
                 });
-                var option = {
+                const option = {
                     title: {
                         text: 'GCC-TSVC_2 性能变化 (Runtime)'
                     },
@@ -171,7 +170,7 @@
                         data: kernel_names,
                         selected: kernel_selected
                     },
-                    xAxis:  {
+                    xAxis: {
                         type: 'category',
                         data: category
                     },
@@ -185,8 +184,8 @@
                             dataZoom: {
                                 yAxisIndex: 'none'
                             },
-                            dataView: { readOnly: false },
-                            magicType: { type: ['line', 'bar'] },
+                            dataView: {readOnly: false},
+                            magicType: {type: ['line', 'bar']},
                             restore: {},
                             saveAsImage: {}
                         }
